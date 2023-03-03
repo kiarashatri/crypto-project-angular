@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { CurrenciesService } from 'src/app/service/currencies.service';
+import { SocketService } from 'src/app/service/socket.service';
 
 @Component({
   selector: 'app-table',
@@ -9,26 +10,34 @@ import { CurrenciesService } from 'src/app/service/currencies.service';
 export class TableComponent {
   isFetched: boolean = false;
 
-  currencies: any = {};
-  currenciesObjecyKeys: string[] = [];
+  currencies: any = [];
 
+  tableVisibilaty: boolean = this.isFetched;
   constructor(
     private messageService: MessageService,
-    private currenciesService: CurrenciesService
+    private currenciesService: CurrenciesService,
+    private wsService: SocketService
   ) {
-    this.currencyInfoFetcherInterval();
+    console.log(this.currencies.length);
+    console.log(this.isFetched);
+    wsService.priceListener().subscribe({
+      next: (data: any) => {
+        this.isFetched = true;
+        this.currencies = data;
+      },
+    });
   }
 
-  currencyInfoFetcherInterval(cycle: number = 2000) {
-    setInterval(() => {
-      let response: any;
-      this.currenciesService.getAllCurrencies().subscribe({
-        next: (requestResult) => (response = requestResult),
-        error: (error) => this.fetchAllCurrenciesErrorHandler(error),
-        complete: () => this.fetchAllCurrenciesCompleteHandler(response),
-      });
-    }, cycle);
-  }
+  // currencyInfoFetcherInterval(cycle: number = 2000) {
+  //   setInterval(() => {
+  //     let response: any;
+  //     this.currenciesService.getAllCurrencies().subscribe({
+  //       next: (requestResult) => (response = requestResult),
+  //       error: (error) => this.fetchAllCurrenciesErrorHandler(error),
+  //       complete: () => this.fetchAllCurrenciesCompleteHandler(response),
+  //     });
+  //   }, cycle);
+  // }
 
   currencyDeleteHandler(id: number): void {
     let response: any;
@@ -59,22 +68,22 @@ export class TableComponent {
     });
   }
 
-  fetchAllCurrenciesErrorHandler(error: any) {
-    this.messageService.add({
-      severity: 'error',
-      summary: error?.name,
-      detail: error?.statusText,
-    });
-  }
+  // fetchAllCurrenciesErrorHandler(error: any) {
+  //   this.messageService.add({
+  //     severity: 'error',
+  //     summary: error?.name,
+  //     detail: error?.statusText,
+  //   });
+  // }
 
-  fetchAllCurrenciesCompleteHandler(response: any) {
-    response.forEach((currencyInfo: any) => {
-      this.currencies[currencyInfo.id] = {
-        ...this.currencies[currencyInfo.id],
-        ...currencyInfo,
-      };
-    });
-    this.currenciesObjecyKeys = Object.keys(this.currencies);
-    this.isFetched = true;
-  }
+  // fetchAllCurrenciesCompleteHandler(response: any) {
+  //   response.forEach((currencyInfo: any) => {
+  //     this.currencies[currencyInfo.id] = {
+  //       ...this.currencies[currencyInfo.id],
+  //       ...currencyInfo,
+  //     };
+  //   });
+  //   this.currenciesObjecyKeys = Object.keys(this.currencies);
+  //   this.isFetched = true;
+  // }
 }

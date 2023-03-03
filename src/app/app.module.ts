@@ -20,6 +20,7 @@ import { MessageService } from 'primeng/api';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { TableModule } from 'primeng/table';
 import { SkeletonModule } from 'primeng/skeleton';
+import { NothingToShowComponent } from './components/nothing-to-show/nothing-to-show.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { SkeletonModule } from 'primeng/skeleton';
     FooterComponent,
     TitleComponent,
     AddCurrencyComponent,
+    NothingToShowComponent,
   ],
   imports: [
     BrowserModule,
