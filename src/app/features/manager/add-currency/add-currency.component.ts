@@ -120,7 +120,6 @@ export class AddCurrencyComponent {
   }
 
   onFailRequestHandler(error: any) {
-    console.log(error);
     switch (error.status) {
       case 409:
         this.messageService.add({

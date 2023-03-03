@@ -19,6 +19,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { TableModule } from 'primeng/table';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { TableModule } from 'primeng/table';
     HttpClientModule,
     SpeedDialModule,
     TableModule,
+    SkeletonModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent],
