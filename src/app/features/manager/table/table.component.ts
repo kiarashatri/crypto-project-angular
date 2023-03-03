@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { Currency } from 'src/app/interface/currency';
 import { CurrenciesService } from 'src/app/service/currencies.service';
 import { SocketService } from 'src/app/service/socket.service';
 
@@ -12,7 +13,7 @@ export class TableComponent {
   isFetched: boolean = false;
 
   // currencies array pass to table to show
-  currencies: any = [];
+  currencies: Currency[] = [];
 
   // inject services to component
   constructor(
@@ -22,7 +23,7 @@ export class TableComponent {
   ) {
     // enable price listener, update currencies info and price
     wsService.priceListener().subscribe({
-      next: (data: any) => {
+      next: (data: Currency[]) => {
         this.isFetched = true;
         this.currencies = data;
       },

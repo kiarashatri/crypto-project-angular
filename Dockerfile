@@ -1,21 +1,14 @@
-FROM node:19-alpine3.15 AS dev
+FROM node:lts-alpine AS dev
 
 WORKDIR /app
+
+COPY --chown=node:node package.json ./
+RUN npm install -g @angular/cli@latest
+RUN npm install
+RUN npm install @angular-devkit/build-angular
+
 
 VOLUME ["/app"]
 
-EXPOSE 4200
-
-
-# Production Image
-FROM node:19-alpine3.15 AS prod
-
-WORKDIR /app
-
-COPY . ./
-
-RUN npm install
-
-CMD [ "npm": "serve:prod" ]
-
-EXPOSE 4200
+EXPOSE 3000
+CMD npm run serve:dev
