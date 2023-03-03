@@ -19,6 +19,9 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { TableModule } from 'primeng/table';
+import { SkeletonModule } from 'primeng/skeleton';
+import { NothingToShowComponent } from './components/nothing-to-show/nothing-to-show.component';
+import { LoadingSkeletonComponent } from './components/loading-skeleton/loading-skeleton.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,8 @@ import { TableModule } from 'primeng/table';
     FooterComponent,
     TitleComponent,
     AddCurrencyComponent,
+    NothingToShowComponent,
+    LoadingSkeletonComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +47,7 @@ import { TableModule } from 'primeng/table';
     HttpClientModule,
     SpeedDialModule,
     TableModule,
+    SkeletonModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent],
