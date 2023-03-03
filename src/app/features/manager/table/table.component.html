@@ -10,6 +10,7 @@
       <th class="text-center">Name</th>
       <th class="text-center">Price</th>
       <th class="text-center">Email</th>
+      <th class="text-center">Description</th>
       <th class="text-center">Last Trade</th>
       <th class="text-center">Action</th>
     </tr>
@@ -17,9 +18,18 @@
   <ng-template pTemplate="body" let-currency let-columns="columns">
     <tr>
       <td>{{ currency.id }}</td>
-      <td class="text-center">{{ currency.name }}</td>
+      <td class="text-center">{{ currency.name | uppercase }}</td>
       <td class="text-center">{{ currency.price }}</td>
       <td class="text-center">{{ currency.email }}</td>
+      <td class="text-center">
+        {{
+          currency.description.length === 0
+            ? "-"
+            : currency.description.length > 8
+            ? (currency.description | slice : 0 : 8) + "..."
+            : currency.description
+        }}
+      </td>
       <td class="text-center">{{ currency.trade_at | date : "medium" }}</td>
       <td class="text-center">
         <i
@@ -31,21 +41,7 @@
   </ng-template>
 </p-table>
 
-<!-- Skeleton for Small Views -->
-<p-skeleton
-  *ngIf="!isFetched"
-  width="100%"
-  height="15rem"
-  class="sm:hidden"
-></p-skeleton>
-
-<!-- Skeleton for large Views -->
-<p-skeleton
-  class="hidden sm:block"
-  *ngIf="!isFetched"
-  width="60rem"
-  height="15rem"
-></p-skeleton>
+<app-loading-skeleton [visibility]="!isFetched"></app-loading-skeleton>
 
 <app-nothing-to-show
   [visibility]="isFetched && currencies.length === 0"

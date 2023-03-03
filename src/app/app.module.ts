@@ -21,6 +21,7 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { TableModule } from 'primeng/table';
 import { SkeletonModule } from 'primeng/skeleton';
 import { NothingToShowComponent } from './components/nothing-to-show/nothing-to-show.component';
+import { LoadingSkeletonComponent } from './components/loading-skeleton/loading-skeleton.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { NothingToShowComponent } from './components/nothing-to-show/nothing-to-
     TitleComponent,
     AddCurrencyComponent,
     NothingToShowComponent,
+    LoadingSkeletonComponent,
   ],
   imports: [
     BrowserModule,
