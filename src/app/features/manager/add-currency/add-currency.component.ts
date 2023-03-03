@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { Currency } from 'src/app/interface/currency';
+import { CurrenciesService } from 'src/app/service/currencies.service';
 
 @Component({
   selector: 'app-add-currency',
@@ -7,7 +9,7 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./add-currency.component.scss'],
 })
 export class AddCurrencyComponent {
-  addCurrencyModalVisibility: boolean = true;
+  addCurrencyModalVisibility: boolean = false;
 
   isLoadingRequest: boolean = false;
 
@@ -20,9 +22,12 @@ export class AddCurrencyComponent {
 
   inputErrorMessages: string[] = [];
 
-  test = '';
+  reqResult: any;
 
-  constructor(private messageService: MessageService) {}
+  constructor(
+    private messageService: MessageService,
+    private currenciesService: CurrenciesService
+  ) {}
 
   resetInputErrors(): void {
     // clear errors
@@ -85,10 +90,52 @@ export class AddCurrencyComponent {
   submitFormHandler(): void {
     this.resetInputErrors();
     const validation = this.formValidator(this.currencyName, this.email);
+
+    if (validation) {
+      this.currenciesService
+        .insertCurrency({
+          name: this.currencyName,
+          email: this.email,
+          description: this.description,
+        })
+        .subscribe({
+          next: (data) => this.requestMiddlewareHandler(data),
+          error: (e) => this.onFailRequestHandler(e),
+          complete: () => this.onSuccessRequestHandler(),
+        });
+    }
+  }
+
+  requestMiddlewareHandler(data: any) {
+    this.addCurrencyModalVisibility = false;
+    this.reqResult = data;
+  }
+
+  onSuccessRequestHandler() {
     this.messageService.add({
       severity: 'success',
-      summary: 'Service Message',
-      detail: 'Via MessageService',
+      summary: 'Currency Added',
+      detail: `${this.reqResult?.name} Added Successfully`,
     });
+  }
+
+  onFailRequestHandler(error: any) {
+    console.log(error);
+    switch (error.status) {
+      case 409:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Duplicate',
+          detail: `Currency added Before`,
+        });
+        break;
+      default:
+        this.messageService.add({
+          severity: 'error',
+          summary: error.name,
+          detail: error.statusText,
+        });
+        break;
+    }
   }
 }

@@ -13,11 +13,12 @@ import { TableComponent } from './features/manager/table/table.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { TitleComponent } from './components/title/title.component';
 import { AddCurrencyComponent } from './features/manager/add-currency/add-currency.component';
-import { AddCurrencyModalComponent } from './features/manager/add-currency-modal/add-currency-modal.component';
 import { FormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { SpeedDialModule } from 'primeng/speeddial';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,6 @@ import { MessageService } from 'primeng/api';
     FooterComponent,
     TitleComponent,
     AddCurrencyComponent,
-    AddCurrencyModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +40,8 @@ import { MessageService } from 'primeng/api';
     InputTextareaModule,
     ToastModule,
     HttpClientModule,
+    SpeedDialModule,
+    TableModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent],
