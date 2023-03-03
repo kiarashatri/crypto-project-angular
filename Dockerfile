@@ -2,10 +2,20 @@ FROM node:19-alpine3.15 AS dev
 
 WORKDIR /app
 
-COPY --chown=node:node package*.json ./
+VOLUME ["/app"]
+
+EXPOSE 4200
+
+
+# Production Image
+FROM node:19-alpine3.15 AS prod
+
+WORKDIR /app
+
+COPY . ./
 
 RUN npm install
 
-VOLUME ["/app"]
+CMD [ "npm": "serve:prod" ]
 
-EXPOSE 3000
+EXPOSE 4200
