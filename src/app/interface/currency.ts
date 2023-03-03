@@ -8,4 +8,8 @@ export interface Currency {
   description: string | null;
 
   created_at: Date;
+
+  trade_at: Date;
+
+  price: number;
 }

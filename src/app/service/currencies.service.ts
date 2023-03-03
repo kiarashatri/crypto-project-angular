@@ -10,12 +10,7 @@ import { UpdateCurrency } from '../interface/update-currency';
   providedIn: 'root',
 })
 export class CurrenciesService {
-  constructor(private http: HttpClient) {}
-
-  // Get All Currencies from DB
-  test(): Observable<any> {
-    return this.http.get<any>('https://jsonplaceholder.typi34code.com/todos/1');
-  }
+  constructor(private http: HttpClient) {} // import httpClient to send requests
 
   // Get All Currencies from DB
   getAllCurrencies(): Observable<Currency[]> {

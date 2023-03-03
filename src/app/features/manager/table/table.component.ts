@@ -8,18 +8,19 @@ import { SocketService } from 'src/app/service/socket.service';
   templateUrl: './table.component.html',
 })
 export class TableComponent {
+  // boolean state for handle is first data fetched or not
   isFetched: boolean = false;
 
+  // currencies array pass to table to show
   currencies: any = [];
 
-  tableVisibilaty: boolean = this.isFetched;
+  // inject services to component
   constructor(
     private messageService: MessageService,
     private currenciesService: CurrenciesService,
     private wsService: SocketService
   ) {
-    console.log(this.currencies.length);
-    console.log(this.isFetched);
+    // enable price listener, update currencies info and price
     wsService.priceListener().subscribe({
       next: (data: any) => {
         this.isFetched = true;
@@ -28,17 +29,10 @@ export class TableComponent {
     });
   }
 
-  // currencyInfoFetcherInterval(cycle: number = 2000) {
-  //   setInterval(() => {
-  //     let response: any;
-  //     this.currenciesService.getAllCurrencies().subscribe({
-  //       next: (requestResult) => (response = requestResult),
-  //       error: (error) => this.fetchAllCurrenciesErrorHandler(error),
-  //       complete: () => this.fetchAllCurrenciesCompleteHandler(response),
-  //     });
-  //   }, cycle);
-  // }
-
+  /*
+    - handle action.delete button
+    - send delete request
+  */
   currencyDeleteHandler(id: number): void {
     let response: any;
     this.currenciesService.deleteCurrency(id).subscribe({
@@ -48,6 +42,7 @@ export class TableComponent {
     });
   }
 
+  // show fail message as toast
   currencyDeleteErrorHandler(error: any): void {
     this.messageService.add({
       severity: 'error',
@@ -56,6 +51,10 @@ export class TableComponent {
     });
   }
 
+  /*
+    - show success message as toast
+    - remove item from `currencies` array
+  */
   currencyDeleteCompleteHandler(id: number): void {
     this.currencies = this.currencies.filter(
       (currency: any) => currency.id !== id
@@ -67,23 +66,4 @@ export class TableComponent {
       detail: `Successfully Deleted`,
     });
   }
-
-  // fetchAllCurrenciesErrorHandler(error: any) {
-  //   this.messageService.add({
-  //     severity: 'error',
-  //     summary: error?.name,
-  //     detail: error?.statusText,
-  //   });
-  // }
-
-  // fetchAllCurrenciesCompleteHandler(response: any) {
-  //   response.forEach((currencyInfo: any) => {
-  //     this.currencies[currencyInfo.id] = {
-  //       ...this.currencies[currencyInfo.id],
-  //       ...currencyInfo,
-  //     };
-  //   });
-  //   this.currenciesObjecyKeys = Object.keys(this.currencies);
-  //   this.isFetched = true;
-  // }
 }

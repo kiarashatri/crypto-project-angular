@@ -1,3 +1,4 @@
+<!-- Currencies Table: shown if IsFetched and There is items to Show -->
 <p-table
   *ngIf="isFetched && currencies.length !== 0"
   [value]="currencies"
@@ -41,8 +42,10 @@
   </ng-template>
 </p-table>
 
+<!-- Loading Skeleton: Show before fetching completed-->
 <app-loading-skeleton [visibility]="!isFetched"></app-loading-skeleton>
 
+<!-- Alert: Shown if isFetched and nothing availbe to show -->
 <app-nothing-to-show
   [visibility]="isFetched && currencies.length === 0"
 ></app-nothing-to-show>
