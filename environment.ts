@@ -1,6 +1,6 @@
 const shared = {
-  apiBaseUrl: 'http://91.107.225.77:4000/v1.0',
-  socketBaseUrl: 'http://91.107.225.77:4000',
+  apiBaseUrl: 'http://localhost:4000/v1.0',
+  socketBaseUrl: 'http://localhost:4000',
 };
 const dev = {};
 const prod = {};
