@@ -94,7 +94,7 @@ export class AddCurrencyComponent {
 
   // validate name -> return string IF its not at good formation
   nameInputValidator(name: string): string | boolean {
-    return name.length < 3 || name.length > 15
+    return name.length < 3 || name.length > 10
       ? 'Name Must Between 3 - 10 characters'
       : true;
   }
